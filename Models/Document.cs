@@ -20,6 +20,6 @@ public class Document
     /// <summary>
     /// Indicates whether the document is active or not.
     /// </summary>
-    [JsonPropertyName("Vactiva")]
+    [JsonPropertyName("VActiva")]
     public bool VActive { get; set; }
 }
