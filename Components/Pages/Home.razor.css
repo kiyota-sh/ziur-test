@@ -1,0 +1,163 @@
+.hero {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+}
+
+.avatar {
+    flex-shrink: 0;
+    width: 148px;
+    height: 148px;
+    border-radius: 50%;
+    border: 3px solid var(--primary);
+    background: var(--bg);
+    object-fit: cover;
+    image-rendering: pixelated;
+}
+
+.eyebrow {
+    margin-bottom: 0.25rem;
+    color: var(--accent);
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.hero h1 {
+    margin: 0;
+    font-size: 2.25rem;
+}
+
+.role {
+    margin: 0.25rem 0 1.25rem;
+    color: var(--muted);
+}
+
+.hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 320px;
+    gap: 1.5rem;
+    align-items: start;
+}
+
+.card-block {
+    margin-bottom: 1.5rem;
+    padding: 1.5rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+
+.card-block h2 {
+    margin-bottom: 0.75rem;
+    font-size: 1.1rem;
+}
+
+.salary-card {
+    background: rgba(70, 54, 113, 0.35);
+    border-color: var(--primary);
+}
+
+.salary {
+    margin: 0;
+    color: var(--accent);
+    font-size: 1.75rem;
+    font-weight: 700;
+}
+
+.salary-note {
+    margin: 0.25rem 0 0;
+    color: var(--muted);
+    font-size: 0.875rem;
+}
+
+.contact-list {
+    display: grid;
+    gap: 0.9rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.contact-list span {
+    display: block;
+    color: var(--muted);
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.contact-list a {
+    word-break: break-word;
+}
+
+.stack-group+.stack-group {
+    margin-top: 1rem;
+}
+
+.stack-group h3 {
+    margin-bottom: 0.5rem;
+    color: var(--muted);
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+
+.chip {
+    padding: 0.2rem 0.65rem;
+    background: rgba(70, 54, 113, 0.5);
+    border: 1px solid var(--primary);
+    border-radius: 999px;
+    font-size: 0.85rem;
+}
+
+.timeline {
+    display: grid;
+    gap: 1.1rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.timeline li {
+    padding-left: 1rem;
+    border-left: 2px solid var(--primary);
+}
+
+.period {
+    color: var(--muted);
+    font-size: 0.85rem;
+}
+
+@media (max-width: 900px) {
+    .layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .hero {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .hero-actions {
+        justify-content: center;
+    }
+}
