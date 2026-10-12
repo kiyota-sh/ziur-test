@@ -1,7 +1,10 @@
 using System.Net;
 using System.Net.Http.Headers;
-using System.Reflection.Metadata;
+using System.Net.Http.Json;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using ZiurTest.Configuration;
+using ZiurTest.Models;
 
 public class DocumentService : IDocumentService
 {
@@ -35,7 +38,7 @@ public class DocumentService : IDocumentService
                 throw new HttpRequestException($"Error fetching documents from Ziur API. Status code: {(int)response.StatusCode}");
 
             var data = await response.Content.ReadFromJsonAsync<List<Document>>(cancellationToken);
-            return data ?? [];
+            return data ?? new List<Document>();
         }
         catch (TaskCanceledException)
         {
