@@ -1,0 +1,80 @@
+@page "/documents"
+@using ZiurTest.Components.Shared
+
+<PageTitle>Documents Catalog</PageTitle>
+
+<header class="page-header">
+    <h1>Document catalog</h1>
+    <p class="page-subtitle">Search and sort the documents available from the API.</p>
+</header>
+
+<div class="toolbar">
+    <div class="search">
+        <input class="form-control" placeholder="Search by code or description..." aria-label="Search documents"
+               @bind="_searchTerm" @bind:event="oninput" @bind:after="UpdateView" />
+        @if (_searchTerm.Length > 0)
+        {
+            <button class="btn btn-ghost" @onclick="ClearSearch">Clear</button>
+        }
+    </div>
+
+    @if (!_isLoading && _errorMessage is null)
+    {
+        <span class="result-count" aria-live="polite">
+            @_visibleDocuments.Count of @_documents.Count documents
+        </span>
+    }
+</div>
+
+@if (_isLoading)
+{
+    <div class="skeleton-list" role="status">
+        <span class="visually-hidden">Loading documents...</span>
+        @for (var i = 0; i < 6; i++)
+        {
+            <div class="skeleton-row"></div>
+        }
+    </div>
+}
+else if (_errorMessage is not null)
+{
+    <div class="alert alert-danger d-flex justify-content-between align-items-center" role="alert">
+        <span>@_errorMessage</span>
+        <button class="btn btn-sm btn-ghost" @onclick="LoadAsync">Retry</button>
+    </div>
+}
+else if (_visibleDocuments.Count == 0)
+{
+    <div class="empty">@EmptyMessage</div>
+}
+else
+{
+    <div class="table-wrap">
+        <table class="doc-table">
+            <thead>
+                <tr>
+                    <SortableHeader TColumn="DocumentColumn" Title="Code" Column="DocumentColumn.Code"
+                                    CurrentColumn="_sortColumn" Ascending="_ascending" OnSort="OnSortRequested" />
+                    <SortableHeader TColumn="DocumentColumn" Title="Description" Column="DocumentColumn.Description"
+                                    CurrentColumn="_sortColumn" Ascending="_ascending" OnSort="OnSortRequested" />
+                    <SortableHeader TColumn="DocumentColumn" Title="Active" Column="DocumentColumn.VActive"
+                                    CurrentColumn="_sortColumn" Ascending="_ascending" OnSort="OnSortRequested" />
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var d in _visibleDocuments)
+                {
+                    <tr @key="d.Code">
+                        <td class="code">@d.Code</td>
+                        <td>@d.Description</td>
+                        <td>
+                            <span class="status @(d.VActive ? "status-on" : "status-off")">
+                                @(d.VActive ? "Active" : "Inactive")
+                            </span>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

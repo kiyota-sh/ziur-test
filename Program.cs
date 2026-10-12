@@ -1,10 +1,19 @@
 using ZiurTest.Components;
+using ZiurTest.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+builder.Services.Configure<ZiurApiOptions>(
+    builder.Configuration.GetSection(ZiurApiOptions.SectionName));
+
+builder.Services.AddHttpClient<IDocumentService, DocumentService>(client =>
+{
+    client.Timeout = TimeSpan.FromSeconds(15);
+});
 
 var app = builder.Build();
 

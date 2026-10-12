@@ -1,7 +1,75 @@
 ﻿@page "/"
 
-<PageTitle>Home</PageTitle>
+<PageTitle>Camilo Solarte | Full Stack Developer</PageTitle>
 
-<h1>Hello, world!</h1>
+<section class="hero">
+    <img class="avatar" src="images/me.jpg" alt="Pixel art portrait of Camilo Solarte" width="148" height="148" />
+    <div>
+        <p class="eyebrow">Technical assessment · Ziur</p>
+        <h1>Camilo Solarte</h1>
+        <p class="role">Full Stack Developer · REST APIs, TypeScript, NestJS, React and .NET</p>
+        <div class="hero-actions">
+            <a class="btn btn-accent" href="documents">Open document catalog</a>
+            <a class="btn btn-ghost" href="mailto:@Email">Contact me</a>
+        </div>
+    </div>
 
-Welcome to your new app.
+    <section class="card-block salary-card">
+        <h2>Salary expectation</h2>
+        <p class="salary">@SalaryExpectation</p>
+        <p class="salary-note">@SalaryPeriod</p>
+    </section>
+</section>
+
+<div class="layout">
+    <div>
+        <section class="card-block">
+            <h2>About me</h2>
+            <p>
+                Full stack developer with end-to-end experience in TypeScript (React, Next.js, NestJS, Express)
+                and SQL databases (PostgreSQL, MariaDB, PL/SQL). I've built documented REST APIs, integrated
+                payment gateways and SMTP services, and automated setups with Bash and Python.
+            </p>
+            <p>Right now I'm going deeper into C# and .NET through a personal game project.</p>
+        </section>
+
+        <section class="card-block">
+            <h2>Education</h2>
+            <p class="mb-2">Tecnólogo en Sistematización de Datos<br /><small class="text-muted">Universidad Distrital · 2025 - present</small></p>
+            <p class="mb-2">Técnico en Programación de Software<br /><small class="text-muted">SENA · 2022 - 2023</small></p>
+        </section>
+    </div>
+
+    <aside>
+        <section class="card-block">
+            <h2>Contact</h2>
+            <ul class="contact-list">
+                @foreach (var c in Contacts)
+                {
+                    <li>
+                        <span>@c.Label</span>
+                        <a href="@c.Href" target="@(c.External ? "_blank" : null)"
+                           rel="@(c.External ? "noopener noreferrer" : null)">@c.Text</a>
+                    </li>
+                }
+            </ul>
+        </section>
+    </aside>
+</div>
+
+@code {
+    private const string Email = "kamoxbit@gmail.com";
+    private const string SalaryExpectation = "$ 3.500.000 COP";
+    private const string SalaryPeriod = "Base salary, per month";
+
+    private record ContactItem(string Label, string Text, string Href, bool External = false);
+    private record Role(string Title, string Company, string Period, string Summary);
+
+    private static readonly ContactItem[] Contacts =
+    {
+        new("Email", Email, $"mailto:{Email}"),
+        new("Phone", "+57 311 4442998", "tel:+573114442998"),
+        new("LinkedIn", "linkedin.com/in/camilo-solarte", "https://linkedin.com/in/camilo-solarte/", true),
+        new("GitHub", "github.com/Kiyota-sh", "https://github.com/Kiyota-sh", true),
+    };
+}
