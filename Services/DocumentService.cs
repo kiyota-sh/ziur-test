@@ -1,11 +1,13 @@
 using System.Net;
 using System.Net.Http.Headers;
-using System.Net.Http.Json;
-using Microsoft.Extensions.Logging;
+using System.Text.Json;
 using Microsoft.Extensions.Options;
 using ZiurTest.Configuration;
 using ZiurTest.Models;
 
+/// <summary>
+/// Retrieves documents from the Ziur API
+/// </summary>
 public class DocumentService : IDocumentService
 {
     private readonly HttpClient _http;
@@ -40,10 +42,25 @@ public class DocumentService : IDocumentService
             var data = await response.Content.ReadFromJsonAsync<List<Document>>(cancellationToken);
             return data ?? new List<Document>();
         }
-        catch (TaskCanceledException)
+        catch (TaskCanceledException ex) when (!cancellationToken.IsCancellationRequested)
         {
-            throw new OperationCanceledException("The request to Ziur API was canceled.");
+            _logger.LogWarning(ex, "Request to Ziur API timed out.");
+            throw new TimeoutException("Request to Ziur API timed out.", ex);
         }
-
+        catch (HttpRequestException ex)
+        {
+            _logger.LogError(ex, "Error occurred while fetching documents from Ziur API.");
+            throw new HttpRequestException("Failed to fetch documents from Ziur API.", ex);
+        }
+        catch (JsonException ex)
+        {
+            _logger.LogError(ex, "Error occurred while deserializing documents from Ziur API response.");
+            throw new JsonException("Failed to deserialize documents from Ziur API response.", ex);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "An unexpected error occurred while fetching documents from Ziur API.");
+            throw new Exception("An unexpected error occurred while fetching documents from Ziur API.", ex);
+        }
     }
 }
